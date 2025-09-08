@@ -1,0 +1,307 @@
+[gd_scene load_steps=18 format=3 uid="uid://dgc3m4i4156v3"]
+
+[ext_resource type="Script" uid="uid://bjuexdydjvkta" path="res://src/Main/main.gd" id="1_52sh2"]
+[ext_resource type="Theme" uid="uid://c8wib8exwpaas" path="res://Resources/MainTheme.tres" id="1_f6j18"]
+[ext_resource type="Texture2D" uid="uid://b6p3ijjnx6e3l" path="res://assets/Icons/profile.svg" id="2_nd7eq"]
+[ext_resource type="Texture2D" uid="uid://cifcjhdrcx2d7" path="res://assets/Icons/List.svg" id="3_1pat6"]
+[ext_resource type="PackedScene" uid="uid://351f6j6go1i2" path="res://src/UIComponents/BaseButtonComponent.tscn" id="4_nxavr"]
+[ext_resource type="FontFile" uid="uid://b6pbhvdgvsn2" path="res://assets/Fonts/Fira_Code/static/FiraCode-Regular.ttf" id="6_52sh2"]
+[ext_resource type="Texture2D" uid="uid://3wbfrdbf88e6" path="res://assets/Icons/Back.svg" id="6_nxavr"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nxavr"]
+bg_color = Color(1, 0.715833, 0.69, 1)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(1, 0.651667, 0.62, 1)
+border_blend = true
+corner_radius_top_left = 48
+corner_radius_top_right = 48
+corner_radius_bottom_right = 48
+corner_radius_bottom_left = 48
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yqsku"]
+bg_color = Color(0.77, 0.332383, 0.2926, 1)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0.75, 0.2, 0.15, 1)
+border_blend = true
+corner_radius_top_left = 48
+corner_radius_top_right = 48
+corner_radius_bottom_right = 48
+corner_radius_bottom_left = 48
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_51663"]
+bg_color = Color(1, 0.3675, 0.31, 1)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(1, 0.266667, 0.2, 1)
+border_blend = true
+corner_radius_top_left = 48
+corner_radius_top_right = 48
+corner_radius_bottom_right = 48
+corner_radius_bottom_left = 48
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8lego"]
+bg_color = Color(0.77, 0.332383, 0.2926, 1)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0.75, 0.2, 0.15, 1)
+border_blend = true
+corner_radius_top_left = 48
+corner_radius_top_right = 48
+corner_radius_bottom_right = 48
+corner_radius_bottom_left = 48
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ofova"]
+bg_color = Color(1, 0.435294, 0.380392, 1)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(1, 0.266667, 0.2, 1)
+border_blend = true
+corner_radius_top_left = 48
+corner_radius_top_right = 48
+corner_radius_bottom_right = 48
+corner_radius_bottom_left = 48
+
+[sub_resource type="Animation" id="Animation_52sh2"]
+resource_name = "Default"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Slide:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-248, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_nxavr"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Slide:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-248, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_yqsku"]
+resource_name = "SlideIn"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Slide:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(0.170755, 1),
+"update": 0,
+"values": [Vector2(-248, 0), Vector2(0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_51663"]
+resource_name = "SlideOut"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Slide:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(0.203063, 0.68302),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(-248, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_yqsku"]
+_data = {
+&"Default": SubResource("Animation_52sh2"),
+&"RESET": SubResource("Animation_nxavr"),
+&"SlideIn": SubResource("Animation_yqsku"),
+&"SlideOut": SubResource("Animation_51663")
+}
+
+[node name="Main" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_f6j18")
+script = ExtResource("1_52sh2")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.15, 0.15, 0.15, 1)
+
+[node name="MainContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="Panel" parent="MainContainer"]
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MainContainer/Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ProfileButton" type="Button" parent="MainContainer/Panel/HBoxContainer"]
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+icon = ExtResource("2_nd7eq")
+icon_alignment = 1
+
+[node name="HeaderTitle" type="Label" parent="MainContainer/Panel/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Club Dashboard"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="OptionsContainer" type="MarginContainer" parent="MainContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/margin_left = 24
+theme_override_constants/margin_top = 24
+theme_override_constants/margin_right = 24
+theme_override_constants/margin_bottom = 24
+
+[node name="GridContainer" type="GridContainer" parent="MainContainer/OptionsContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/h_separation = 48
+theme_override_constants/v_separation = 0
+columns = 2
+
+[node name="ManageEvents" parent="MainContainer/OptionsContainer/GridContainer" instance=ExtResource("4_nxavr")]
+layout_mode = 2
+
+[node name="RegistrationsButton" parent="MainContainer/OptionsContainer/GridContainer" instance=ExtResource("4_nxavr")]
+layout_mode = 2
+Icon = ExtResource("3_1pat6")
+Text = "Registrations"
+
+[node name="Slide" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_left = -248.0
+grow_vertical = 2
+
+[node name="Background" type="ColorRect" parent="Slide"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.101961, 0.101961, 0.101961, 1)
+
+[node name="MarginContainer" type="MarginContainer" parent="Slide"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 12
+
+[node name="SlideOptions" type="VBoxContainer" parent="Slide/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Back" type="Button" parent="Slide/MarginContainer/SlideOptions"]
+layout_mode = 2
+size_flags_horizontal = 0
+text = " Back "
+icon = ExtResource("6_nxavr")
+
+[node name="HSeparator" type="HSeparator" parent="Slide/MarginContainer/SlideOptions"]
+layout_mode = 2
+
+[node name="ProfileBackdrop" type="PanelContainer" parent="Slide/MarginContainer/SlideOptions"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Slide/MarginContainer/SlideOptions/ProfileBackdrop"]
+layout_mode = 2
+
+[node name="ProfilePic" type="TextureRect" parent="Slide/MarginContainer/SlideOptions/ProfileBackdrop/HBoxContainer"]
+layout_mode = 2
+texture = ExtResource("2_nd7eq")
+expand_mode = 2
+stretch_mode = 5
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Slide/MarginContainer/SlideOptions/ProfileBackdrop/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="UserId" type="Label" parent="Slide/MarginContainer/SlideOptions/ProfileBackdrop/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+text = "Shawn Williams"
+
+[node name="Club" type="Label" parent="Slide/MarginContainer/SlideOptions/ProfileBackdrop/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+text = "C.S club"
+
+[node name="LogOut" type="Button" parent="Slide/MarginContainer/SlideOptions"]
+layout_mode = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 3
+theme_override_fonts/font = ExtResource("6_52sh2")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_nxavr")
+theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_yqsku")
+theme_override_styles/hover = SubResource("StyleBoxFlat_51663")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_8lego")
+theme_override_styles/normal = SubResource("StyleBoxFlat_ofova")
+text = "Logout"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_yqsku")
+}
+
+[connection signal="pressed" from="MainContainer/Panel/HBoxContainer/ProfileButton" to="." method="_on_profile_button_pressed"]
+[connection signal="pressed" from="MainContainer/OptionsContainer/GridContainer/ManageEvents" to="." method="_on_manage_events_pressed"]
+[connection signal="pressed" from="MainContainer/OptionsContainer/GridContainer/RegistrationsButton" to="." method="_on_registrations_button_pressed"]
+[connection signal="pressed" from="Slide/MarginContainer/SlideOptions/Back" to="." method="_on_profile_button_pressed"]
