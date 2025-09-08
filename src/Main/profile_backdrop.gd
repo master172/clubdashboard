@@ -5,3 +5,4 @@ extends PanelContainer
 
 func _set_data() -> void:
 	user_id.text = Utils.user_id
+	club.text = Utils.login_club
