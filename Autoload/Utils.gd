@@ -3,6 +3,8 @@ extends Node
 var login_user_id:String = ""
 var login_club:String = ""
 
+var register_form:Queue = Queue.new()
+
 func is_valid_phone_number(phone: String) -> bool:
 	var regex := RegEx.new()
 	regex.compile("^\\+?\\d{1,4}?[-.\\s]?\\(?\\d{1,3}?\\)?[-.\\s]?\\d{1,4}[-.\\s]?\\d{1,4}[-.\\s]?\\d{1,9}$")

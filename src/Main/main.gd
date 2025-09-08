@@ -19,4 +19,5 @@ func _on_manage_events_pressed() -> void:
 
 
 func _on_registrations_button_pressed() -> void:
-	pass # Replace with function body.
+	var Manage_Registrations_scene:PackedScene = load("res://src/Main/manage_registrations.tscn")
+	get_tree().change_scene_to_packed(Manage_Registrations_scene)

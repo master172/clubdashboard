@@ -1,4 +1,4 @@
-[gd_resource type="Theme" load_steps=9 format=3 uid="uid://c8wib8exwpaas"]
+[gd_resource type="Theme" load_steps=10 format=3 uid="uid://c8wib8exwpaas"]
 
 [ext_resource type="FontFile" uid="uid://b6pbhvdgvsn2" path="res://assets/Fonts/Fira_Code/static/FiraCode-Regular.ttf" id="1_f5rfs"]
 
@@ -75,6 +75,8 @@ corner_radius_top_right = 12
 corner_radius_bottom_right = 12
 corner_radius_bottom_left = 12
 
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_bs5wg"]
+
 [resource]
 Button/fonts/font = ExtResource("1_f5rfs")
 Button/styles/disabled = SubResource("StyleBoxFlat_f5rfs")
@@ -95,3 +97,4 @@ PanelContainer/styles/panel = SubResource("StyleBoxFlat_tohqo")
 TextEdit/colors/font_placeholder_color = Color(0.88, 0.88, 0.88, 0.784314)
 TextEdit/constants/outline_size = 4
 TextEdit/fonts/font = ExtResource("1_f5rfs")
+VSeparator/styles/separator = SubResource("StyleBoxEmpty_bs5wg")
