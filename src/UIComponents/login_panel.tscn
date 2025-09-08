@@ -1,0 +1,71 @@
+[gd_scene load_steps=2 format=3 uid="uid://cypai30cdo3di"]
+
+[ext_resource type="Script" uid="uid://5scyi7xqbxat" path="res://src/UIComponents/login_panel.gd" id="1_jyv8j"]
+
+[node name="LoginPanel" type="PanelContainer"]
+script = ExtResource("1_jyv8j")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 12
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="Header" type="PanelContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/Header"]
+layout_mode = 2
+theme_override_constants/margin_left = 75
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_right = 75
+theme_override_constants/margin_bottom = 2
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/Header/MarginContainer"]
+layout_mode = 2
+text = "Login Please"
+
+[node name="Contents" type="PanelContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/Contents"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/Contents/MarginContainer"]
+layout_mode = 2
+
+[node name="UserId" type="HBoxContainer" parent="MarginContainer/VBoxContainer/Contents/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="MarginContainer/VBoxContainer/Contents/MarginContainer/VBoxContainer/UserId"]
+layout_mode = 2
+text = "UserId  :"
+
+[node name="UserID" type="LineEdit" parent="MarginContainer/VBoxContainer/Contents/MarginContainer/VBoxContainer/UserId"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Password" type="HBoxContainer" parent="MarginContainer/VBoxContainer/Contents/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="MarginContainer/VBoxContainer/Contents/MarginContainer/VBoxContainer/Password"]
+layout_mode = 2
+text = "Password:"
+
+[node name="PasswordEntry" type="LineEdit" parent="MarginContainer/VBoxContainer/Contents/MarginContainer/VBoxContainer/Password"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Login" type="Button" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Login"
+
+[connection signal="text_changed" from="MarginContainer/VBoxContainer/Contents/MarginContainer/VBoxContainer/UserId/UserID" to="." method="_on_user_id_text_changed"]
+[connection signal="text_submitted" from="MarginContainer/VBoxContainer/Contents/MarginContainer/VBoxContainer/UserId/UserID" to="." method="_on_user_id_text_changed"]
+[connection signal="text_changed" from="MarginContainer/VBoxContainer/Contents/MarginContainer/VBoxContainer/Password/PasswordEntry" to="." method="_on_password_entry_text_changed"]
+[connection signal="text_submitted" from="MarginContainer/VBoxContainer/Contents/MarginContainer/VBoxContainer/Password/PasswordEntry" to="." method="_on_password_entry_text_changed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/Login" to="." method="_on_login_pressed"]

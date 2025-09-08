@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://dgc3m4i4156v3"]
+[gd_scene load_steps=21 format=3 uid="uid://dgc3m4i4156v3"]
 
 [ext_resource type="Script" uid="uid://bjuexdydjvkta" path="res://src/Main/main.gd" id="1_52sh2"]
 [ext_resource type="Theme" uid="uid://c8wib8exwpaas" path="res://Resources/MainTheme.tres" id="1_f6j18"]
@@ -7,6 +7,9 @@
 [ext_resource type="PackedScene" uid="uid://351f6j6go1i2" path="res://src/UIComponents/BaseButtonComponent.tscn" id="4_nxavr"]
 [ext_resource type="FontFile" uid="uid://b6pbhvdgvsn2" path="res://assets/Fonts/Fira_Code/static/FiraCode-Regular.ttf" id="6_52sh2"]
 [ext_resource type="Texture2D" uid="uid://3wbfrdbf88e6" path="res://assets/Icons/Back.svg" id="6_nxavr"]
+[ext_resource type="Script" uid="uid://b7mdgktvb5jkb" path="res://src/Main/profile_backdrop.gd" id="7_8lego"]
+[ext_resource type="Script" uid="uid://d4fyessg1ojcc" path="res://src/Main/login_container.gd" id="8_51663"]
+[ext_resource type="PackedScene" uid="uid://cypai30cdo3di" path="res://src/UIComponents/login_panel.tscn" id="8_yqsku"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nxavr"]
 bg_color = Color(1, 0.715833, 0.69, 1)
@@ -118,6 +121,20 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(0.170755, 1),
 "update": 0,
 "values": [Vector2(-248, 0), Vector2(0, 0)]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Slide/MarginContainer/SlideOptions/ProfileBackdrop")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"_set_data"
+}]
 }
 
 [sub_resource type="Animation" id="Animation_51663"]
@@ -262,6 +279,7 @@ layout_mode = 2
 
 [node name="ProfileBackdrop" type="PanelContainer" parent="Slide/MarginContainer/SlideOptions"]
 layout_mode = 2
+script = ExtResource("7_8lego")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Slide/MarginContainer/SlideOptions/ProfileBackdrop"]
 layout_mode = 2
@@ -301,7 +319,39 @@ libraries = {
 &"": SubResource("AnimationLibrary_yqsku")
 }
 
+[node name="LoginContainer" type="Control" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("8_51663")
+
+[node name="ColorRect" type="ColorRect" parent="LoginContainer"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.101961, 0.101961, 0.101961, 0.466667)
+
+[node name="CenterContainer" type="CenterContainer" parent="LoginContainer"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="LoginPanel" parent="LoginContainer/CenterContainer" instance=ExtResource("8_yqsku")]
+layout_mode = 2
+
 [connection signal="pressed" from="MainContainer/Panel/HBoxContainer/ProfileButton" to="." method="_on_profile_button_pressed"]
 [connection signal="pressed" from="MainContainer/OptionsContainer/GridContainer/ManageEvents" to="." method="_on_manage_events_pressed"]
 [connection signal="pressed" from="MainContainer/OptionsContainer/GridContainer/RegistrationsButton" to="." method="_on_registrations_button_pressed"]
 [connection signal="pressed" from="Slide/MarginContainer/SlideOptions/Back" to="." method="_on_profile_button_pressed"]
+[connection signal="pressed" from="Slide/MarginContainer/SlideOptions/LogOut" to="." method="_on_log_out_pressed"]
+[connection signal="login" from="LoginContainer/CenterContainer/LoginPanel" to="." method="_on_login_panel_login"]
