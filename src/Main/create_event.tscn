@@ -237,21 +237,21 @@ horizontal_alignment = 1
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="NumParticipants2" type="PanelContainer" parent="VBoxContainer/MarginContainer/ScrollContainer/FormContainer"]
+[node name="Fees" type="PanelContainer" parent="VBoxContainer/MarginContainer/ScrollContainer/FormContainer"]
 layout_mode = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/MarginContainer/ScrollContainer/FormContainer/NumParticipants2"]
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/MarginContainer/ScrollContainer/FormContainer/Fees"]
 layout_mode = 2
 theme_override_constants/margin_left = 12
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/MarginContainer/ScrollContainer/FormContainer/NumParticipants2/MarginContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/MarginContainer/ScrollContainer/FormContainer/Fees/MarginContainer"]
 layout_mode = 2
 
-[node name="Title" type="Label" parent="VBoxContainer/MarginContainer/ScrollContainer/FormContainer/NumParticipants2/MarginContainer/HBoxContainer"]
+[node name="Title" type="Label" parent="VBoxContainer/MarginContainer/ScrollContainer/FormContainer/Fees/MarginContainer/HBoxContainer"]
 layout_mode = 2
 text = "Fees:      "
 
-[node name="fees" type="SpinBox" parent="VBoxContainer/MarginContainer/ScrollContainer/FormContainer/NumParticipants2/MarginContainer/HBoxContainer"]
+[node name="fees" type="SpinBox" parent="VBoxContainer/MarginContainer/ScrollContainer/FormContainer/Fees/MarginContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 max_value = 10000.0
@@ -270,5 +270,5 @@ text = "Save"
 [connection signal="value_changed" from="VBoxContainer/MarginContainer/ScrollContainer/FormContainer/NumParticipants/MarginContainer/HBoxContainer/num_participants" to="." method="_on_num_participants_value_changed"]
 [connection signal="text_submitted" from="VBoxContainer/MarginContainer/ScrollContainer/FormContainer/Timings/MarginContainer/HBoxContainer/timings" to="." method="_on_timings_text_submitted"]
 [connection signal="text_submitted" from="VBoxContainer/MarginContainer/ScrollContainer/FormContainer/ContactNo/MarginContainer/HBoxContainer/contact_no" to="." method="_on_contact_no_text_submitted"]
-[connection signal="value_changed" from="VBoxContainer/MarginContainer/ScrollContainer/FormContainer/NumParticipants2/MarginContainer/HBoxContainer/fees" to="." method="_on_fees_value_changed"]
+[connection signal="value_changed" from="VBoxContainer/MarginContainer/ScrollContainer/FormContainer/Fees/MarginContainer/HBoxContainer/fees" to="." method="_on_fees_value_changed"]
 [connection signal="pressed" from="VBoxContainer/MarginContainer/ScrollContainer/FormContainer/Save" to="." method="_on_save_pressed"]

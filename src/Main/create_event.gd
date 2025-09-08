@@ -6,7 +6,7 @@ extends Control
 @onready var num_teams: SpinBox = $VBoxContainer/MarginContainer/ScrollContainer/FormContainer/NumTeams/MarginContainer/HBoxContainer/num_teams
 @onready var num_participants: SpinBox = $VBoxContainer/MarginContainer/ScrollContainer/FormContainer/NumParticipants/MarginContainer/HBoxContainer/num_participants
 @onready var timings: LineEdit = $VBoxContainer/MarginContainer/ScrollContainer/FormContainer/Timings/MarginContainer/HBoxContainer/timings
-@onready var fees: SpinBox = $VBoxContainer/MarginContainer/ScrollContainer/FormContainer/NumParticipants2/MarginContainer/HBoxContainer/fees
+@onready var fees: SpinBox = $VBoxContainer/MarginContainer/ScrollContainer/FormContainer/Fees/MarginContainer/HBoxContainer/fees
 @onready var rule_container: VBoxContainer = $VBoxContainer/MarginContainer/ScrollContainer/FormContainer/RulesPanel/VBoxContainer/PanelContainer/MarginContainer/ScrollContainer/RuleContainer
 
 const RULE = preload("res://src/UIComponents/rule.tscn")
