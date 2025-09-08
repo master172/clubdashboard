@@ -7,4 +7,5 @@ func _on_back_pressed() -> void:
 
 
 func _on_create_new_button_pressed() -> void:
-	pass # Replace with function body.
+	var EventForm:PackedScene = load("res://src/Main/create_event.tscn")
+	get_tree().change_scene_to_packed(EventForm)

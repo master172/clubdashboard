@@ -1,7 +1,10 @@
-[gd_scene load_steps=3 format=3 uid="uid://r3jpxhgb5mmx"]
+[gd_scene load_steps=5 format=3 uid="uid://r3jpxhgb5mmx"]
 
 [ext_resource type="Texture2D" uid="uid://3wbfrdbf88e6" path="res://assets/Icons/Back.svg" id="1_0te4q"]
 [ext_resource type="Theme" uid="uid://c8wib8exwpaas" path="res://Resources/MainTheme.tres" id="1_hkmfr"]
+[ext_resource type="Script" uid="uid://blf1tjb5tfab1" path="res://src/Main/create_event.gd" id="2_0te4q"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_hkmfr"]
 
 [node name="CreateEvent" type="Control"]
 layout_mode = 3
@@ -11,6 +14,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("1_hkmfr")
+script = ExtResource("2_0te4q")
 
 [node name="Background" type="ColorRect" parent="."]
 layout_mode = 1
@@ -58,3 +62,213 @@ theme_override_constants/margin_left = 24
 theme_override_constants/margin_top = 24
 theme_override_constants/margin_right = 24
 theme_override_constants/margin_bottom = 24
+
+[node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="FormContainer" type="VBoxContainer" parent="VBoxContainer/MarginContainer/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/separation = 8
+
+[node name="EventName" type="PanelContainer" parent="VBoxContainer/MarginContainer/ScrollContainer/FormContainer"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/MarginContainer/ScrollContainer/FormContainer/EventName"]
+layout_mode = 2
+theme_override_constants/margin_left = 12
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/MarginContainer/ScrollContainer/FormContainer/EventName/MarginContainer"]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="VBoxContainer/MarginContainer/ScrollContainer/FormContainer/EventName/MarginContainer/HBoxContainer"]
+layout_mode = 2
+text = "Event Name: "
+
+[node name="event_name" type="LineEdit" parent="VBoxContainer/MarginContainer/ScrollContainer/FormContainer/EventName/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "enter event name"
+
+[node name="EventDescription" type="PanelContainer" parent="VBoxContainer/MarginContainer/ScrollContainer/FormContainer"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/MarginContainer/ScrollContainer/FormContainer/EventDescription"]
+layout_mode = 2
+theme_override_constants/margin_left = 12
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/MarginContainer/ScrollContainer/FormContainer/EventDescription/MarginContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/MarginContainer/ScrollContainer/FormContainer/EventDescription/MarginContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="VBoxContainer/MarginContainer/ScrollContainer/FormContainer/EventDescription/MarginContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+text = "Description:"
+
+[node name="description" type="TextEdit" parent="VBoxContainer/MarginContainer/ScrollContainer/FormContainer/EventDescription/MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(0, 128)
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "enter event description:"
+wrap_mode = 1
+scroll_fit_content_height = true
+
+[node name="RulesPanel" type="PanelContainer" parent="VBoxContainer/MarginContainer/ScrollContainer/FormContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_hkmfr")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/MarginContainer/ScrollContainer/FormContainer/RulesPanel"]
+layout_mode = 2
+
+[node name="Header" type="PanelContainer" parent="VBoxContainer/MarginContainer/ScrollContainer/FormContainer/RulesPanel/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/MarginContainer/ScrollContainer/FormContainer/RulesPanel/VBoxContainer/Header"]
+layout_mode = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 1
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 1
+
+[node name="Title" type="Label" parent="VBoxContainer/MarginContainer/ScrollContainer/FormContainer/RulesPanel/VBoxContainer/Header/MarginContainer"]
+layout_mode = 2
+text = "Rules"
+
+[node name="PanelContainer" type="PanelContainer" parent="VBoxContainer/MarginContainer/ScrollContainer/FormContainer/RulesPanel/VBoxContainer"]
+custom_minimum_size = Vector2(0, 256)
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/MarginContainer/ScrollContainer/FormContainer/RulesPanel/VBoxContainer/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer/MarginContainer/ScrollContainer/FormContainer/RulesPanel/VBoxContainer/PanelContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="RuleContainer" type="VBoxContainer" parent="VBoxContainer/MarginContainer/ScrollContainer/FormContainer/RulesPanel/VBoxContainer/PanelContainer/MarginContainer/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="AddRule" type="Button" parent="VBoxContainer/MarginContainer/ScrollContainer/FormContainer/RulesPanel/VBoxContainer"]
+layout_mode = 2
+text = "Add new Rule"
+
+[node name="NumTeams" type="PanelContainer" parent="VBoxContainer/MarginContainer/ScrollContainer/FormContainer"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/MarginContainer/ScrollContainer/FormContainer/NumTeams"]
+layout_mode = 2
+theme_override_constants/margin_left = 12
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/MarginContainer/ScrollContainer/FormContainer/NumTeams/MarginContainer"]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="VBoxContainer/MarginContainer/ScrollContainer/FormContainer/NumTeams/MarginContainer/HBoxContainer"]
+layout_mode = 2
+text = "Num Teams: "
+
+[node name="num_teams" type="SpinBox" parent="VBoxContainer/MarginContainer/ScrollContainer/FormContainer/NumTeams/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+suffix = "Teams"
+
+[node name="NumParticipants" type="PanelContainer" parent="VBoxContainer/MarginContainer/ScrollContainer/FormContainer"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/MarginContainer/ScrollContainer/FormContainer/NumParticipants"]
+layout_mode = 2
+theme_override_constants/margin_left = 12
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/MarginContainer/ScrollContainer/FormContainer/NumParticipants/MarginContainer"]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="VBoxContainer/MarginContainer/ScrollContainer/FormContainer/NumParticipants/MarginContainer/HBoxContainer"]
+layout_mode = 2
+text = "people:    "
+
+[node name="num_participants" type="SpinBox" parent="VBoxContainer/MarginContainer/ScrollContainer/FormContainer/NumParticipants/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+suffix = "per team"
+
+[node name="Timings" type="PanelContainer" parent="VBoxContainer/MarginContainer/ScrollContainer/FormContainer"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/MarginContainer/ScrollContainer/FormContainer/Timings"]
+layout_mode = 2
+theme_override_constants/margin_left = 12
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/MarginContainer/ScrollContainer/FormContainer/Timings/MarginContainer"]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="VBoxContainer/MarginContainer/ScrollContainer/FormContainer/Timings/MarginContainer/HBoxContainer"]
+layout_mode = 2
+text = "Timings:   "
+horizontal_alignment = 1
+
+[node name="timings" type="LineEdit" parent="VBoxContainer/MarginContainer/ScrollContainer/FormContainer/Timings/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="ContactNo" type="PanelContainer" parent="VBoxContainer/MarginContainer/ScrollContainer/FormContainer"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/MarginContainer/ScrollContainer/FormContainer/ContactNo"]
+layout_mode = 2
+theme_override_constants/margin_left = 12
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/MarginContainer/ScrollContainer/FormContainer/ContactNo/MarginContainer"]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="VBoxContainer/MarginContainer/ScrollContainer/FormContainer/ContactNo/MarginContainer/HBoxContainer"]
+layout_mode = 2
+text = "Contact No:"
+horizontal_alignment = 1
+
+[node name="contact_no" type="LineEdit" parent="VBoxContainer/MarginContainer/ScrollContainer/FormContainer/ContactNo/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="NumParticipants2" type="PanelContainer" parent="VBoxContainer/MarginContainer/ScrollContainer/FormContainer"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/MarginContainer/ScrollContainer/FormContainer/NumParticipants2"]
+layout_mode = 2
+theme_override_constants/margin_left = 12
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/MarginContainer/ScrollContainer/FormContainer/NumParticipants2/MarginContainer"]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="VBoxContainer/MarginContainer/ScrollContainer/FormContainer/NumParticipants2/MarginContainer/HBoxContainer"]
+layout_mode = 2
+text = "Fees:      "
+
+[node name="fees" type="SpinBox" parent="VBoxContainer/MarginContainer/ScrollContainer/FormContainer/NumParticipants2/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+max_value = 10000.0
+prefix = "₹"
+
+[node name="Save" type="Button" parent="VBoxContainer/MarginContainer/ScrollContainer/FormContainer"]
+layout_mode = 2
+size_flags_vertical = 10
+text = "Save"
+
+[connection signal="pressed" from="VBoxContainer/Header/VBoxContainer/Back" to="." method="_on_back_pressed"]
+[connection signal="text_submitted" from="VBoxContainer/MarginContainer/ScrollContainer/FormContainer/EventName/MarginContainer/HBoxContainer/event_name" to="." method="_on_event_name_text_submitted"]
+[connection signal="text_set" from="VBoxContainer/MarginContainer/ScrollContainer/FormContainer/EventDescription/MarginContainer/HBoxContainer/description" to="." method="_on_description_text_set"]
+[connection signal="pressed" from="VBoxContainer/MarginContainer/ScrollContainer/FormContainer/RulesPanel/VBoxContainer/AddRule" to="." method="_on_add_rule_pressed"]
+[connection signal="value_changed" from="VBoxContainer/MarginContainer/ScrollContainer/FormContainer/NumTeams/MarginContainer/HBoxContainer/num_teams" to="." method="_on_num_teams_value_changed"]
+[connection signal="value_changed" from="VBoxContainer/MarginContainer/ScrollContainer/FormContainer/NumParticipants/MarginContainer/HBoxContainer/num_participants" to="." method="_on_num_participants_value_changed"]
+[connection signal="text_submitted" from="VBoxContainer/MarginContainer/ScrollContainer/FormContainer/Timings/MarginContainer/HBoxContainer/timings" to="." method="_on_timings_text_submitted"]
+[connection signal="text_submitted" from="VBoxContainer/MarginContainer/ScrollContainer/FormContainer/ContactNo/MarginContainer/HBoxContainer/contact_no" to="." method="_on_contact_no_text_submitted"]
+[connection signal="value_changed" from="VBoxContainer/MarginContainer/ScrollContainer/FormContainer/NumParticipants2/MarginContainer/HBoxContainer/fees" to="." method="_on_fees_value_changed"]
+[connection signal="pressed" from="VBoxContainer/MarginContainer/ScrollContainer/FormContainer/Save" to="." method="_on_save_pressed"]
