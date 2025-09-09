@@ -8,19 +8,19 @@ uniform float rim_thickness : hint_range(0.0, 0.1) = 0.02;        // Thickness o
 void fragment() {
     // Get UV coordinates (0 to 1 across the texture)
     vec2 uv = UV;
-    
+
     // Center the UV coordinates to (0,0) at the middle of the texture
     vec2 centered_uv = uv - vec2(0.5);
-    
+
     // Calculate the distance from the center
     float dist = length(centered_uv);
-    
+
     // Define the inner radius (where the rim starts)
     float inner_radius = radius - rim_thickness;
-    
+
     // Initialize color
     vec4 color = vec4(0.0);
-    
+
     // Assign color based on distance
     if (dist > radius) {
         // Outside the circle: transparent
@@ -33,7 +33,7 @@ void fragment() {
         float t = dist / inner_radius; // Normalize distance for gradient
         color = center_color;
     }
-    
+
     // Set the final color
     COLOR = color;
 }

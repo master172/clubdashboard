@@ -42,6 +42,7 @@ var data:Dictionary = {
 	"contact_no":"",
 	"fees":0
 }
+
 func _on_back_pressed() -> void:
 	var EventManager:PackedScene = load("res://src/Main/manage_events.tscn")
 	get_tree().change_scene_to_packed(EventManager)
@@ -116,4 +117,21 @@ func _on_save_pressed() -> void:
 		else:
 			data[field_map[i]] = i.text if Utils.has_property(i,"text") else int(i.value)
 	
-	_on_back_pressed()
+	attemt_event_creation(data)
+
+func attemt_event_creation(Data:Dictionary):
+	var http :HTTPRequest = HTTPRequest.new()
+	add_child(http)
+	http.request_completed.connect(self._on_club_completed)
+	http.request_completed.connect(http.queue_free.unbind(4))
+	var header = ["Content-Type: application/json"]
+	var body:String = JSON.stringify(Data)
+	var err = http.request("http://127.0.0.1:8000/create_event",header,HTTPClient.METHOD_POST,body)
+	if err != OK:
+		push_error("http request error: ",err)
+	
+func _on_club_completed(result: int, response_code: int, headers: PackedStringArray, body: PackedByteArray) -> void:
+	if response_code == 200:
+		_on_back_pressed()
+	else:
+		push_error("request failed response code: ",response_code)
