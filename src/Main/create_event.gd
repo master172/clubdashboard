@@ -33,6 +33,7 @@ const RULE = preload("res://src/UIComponents/rule.tscn")
 
 var data:Dictionary = {
 	"club_name":Utils.login_club,
+	"event_id":"",
 	"event_name":"",
 	"description":"",
 	"rules":[],
@@ -45,7 +46,10 @@ var data:Dictionary = {
 
 func _ready() -> void:
 	if Utils.selected_event.size() != 0:
+		
 		attemt_event_load()
+	else:
+		attemt_events_size()
 
 func _on_back_pressed() -> void:
 	var EventManager:PackedScene = load("res://src/Main/manage_events.tscn")
@@ -149,7 +153,9 @@ func attemt_event_load():
 	http.request_completed.connect(self._on_load_completed)
 	http.request_completed.connect(http.queue_free.unbind(4))
 	var header = ["Content-Type: application/json"]
-	var body:String = JSON.stringify({"club_name":Utils.login_club,"event_name":Utils.selected_event.get_front()})
+	var loading_event = Utils.selected_event.get_front()
+	data["event_id"] = loading_event
+	var body:String = JSON.stringify({"club_name":Utils.login_club,"event_name":loading_event})
 	
 	var err = http.request("http://127.0.0.1:8000/event",header,HTTPClient.METHOD_GET,body)
 	if err != OK:
@@ -164,6 +170,7 @@ func _on_load_completed(result: int, response_code: int, headers: PackedStringAr
 		push_error("request failed response code: ",response_code)
 
 func load_event_details(Data:Dictionary):
+	
 	event_name.text = Data.event_name
 	description.text = Data.description
 	timings.text = Data.timings
@@ -180,3 +187,22 @@ func load_event_details(Data:Dictionary):
 		new_rule.text = i
 		fields.append(new_rule)
 	
+func attemt_events_size():
+	var http :HTTPRequest = HTTPRequest.new()
+	add_child(http)
+	http.request_completed.connect(self._on_size_completed)
+	http.request_completed.connect(http.queue_free.unbind(4))
+	var header = ["Content-Type: application/json"]
+	var body:String = JSON.stringify({"club_name":Utils.login_club})
+	
+	var err = http.request("http://127.0.0.1:8000/event_size",header,HTTPClient.METHOD_GET,body)
+	if err != OK:
+		push_error("http request error: ",err)
+	
+func _on_size_completed(result: int, response_code: int, headers: PackedStringArray, body: PackedByteArray) -> void:
+	if response_code == 200:
+		var Data_number :int = JSON.parse_string(body.get_string_from_utf8())
+		if Data_number != null:
+			data["event_id"] = "event_"+str(Data_number+1)
+	else:
+		push_error("request failed response code: ",response_code)

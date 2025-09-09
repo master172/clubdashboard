@@ -30,18 +30,18 @@ func attemt_events_creation():
 	
 func _on_request_completed(result: int, response_code: int, headers: PackedStringArray, body: PackedByteArray) -> void:
 	if response_code == 200:
-		var data:Array = JSON.parse_string(body.get_string_from_utf8())
-		if data != []:
+		var data:Dictionary = JSON.parse_string(body.get_string_from_utf8())
+		if data != {}:
 			add_event_buttons(data)
 	else:
 		push_error("request failed response code: ",response_code)
 
-func add_event_buttons(button_entries:Array)->void:
-	for i in button_entries:
+func add_event_buttons(button_entries:Dictionary)->void:
+	for i in button_entries.keys():
 		var button:Node = EVENT_BUTTON_COMPONENT.instantiate()
 		button.event_name = i
 		button.pressed.connect(self.on_event_button_pressed.bind(button.event_name))
-		button.Text = i
+		button.Text = button_entries[i]
 		items.add_child(button)
 
 func on_event_button_pressed(event_id:String)->void:
