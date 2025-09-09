@@ -43,6 +43,10 @@ var data:Dictionary = {
 	"fees":0
 }
 
+func _ready() -> void:
+	if Utils.selected_event.size() != 0:
+		attemt_event_load()
+
 func _on_back_pressed() -> void:
 	var EventManager:PackedScene = load("res://src/Main/manage_events.tscn")
 	get_tree().change_scene_to_packed(EventManager)
@@ -117,12 +121,15 @@ func _on_save_pressed() -> void:
 		else:
 			data[field_map[i]] = i.text if Utils.has_property(i,"text") else int(i.value)
 	
-	attemt_event_creation(data)
+	if Utils.login_club == "":
+		_on_back_pressed()
+	else:
+		attemt_event_creation(data)
 
 func attemt_event_creation(Data:Dictionary):
 	var http :HTTPRequest = HTTPRequest.new()
 	add_child(http)
-	http.request_completed.connect(self._on_club_completed)
+	http.request_completed.connect(self._on_event_completed)
 	http.request_completed.connect(http.queue_free.unbind(4))
 	var header = ["Content-Type: application/json"]
 	var body:String = JSON.stringify(Data)
@@ -130,8 +137,46 @@ func attemt_event_creation(Data:Dictionary):
 	if err != OK:
 		push_error("http request error: ",err)
 	
-func _on_club_completed(result: int, response_code: int, headers: PackedStringArray, body: PackedByteArray) -> void:
+func _on_event_completed(result: int, response_code: int, headers: PackedStringArray, body: PackedByteArray) -> void:
 	if response_code == 200:
 		_on_back_pressed()
 	else:
 		push_error("request failed response code: ",response_code)
+
+func attemt_event_load():
+	var http :HTTPRequest = HTTPRequest.new()
+	add_child(http)
+	http.request_completed.connect(self._on_load_completed)
+	http.request_completed.connect(http.queue_free.unbind(4))
+	var header = ["Content-Type: application/json"]
+	var body:String = JSON.stringify({"club_name":Utils.login_club,"event_name":Utils.selected_event.get_front()})
+	
+	var err = http.request("http://127.0.0.1:8000/event",header,HTTPClient.METHOD_GET,body)
+	if err != OK:
+		push_error("http request error: ",err)
+	
+func _on_load_completed(result: int, response_code: int, headers: PackedStringArray, body: PackedByteArray) -> void:
+	if response_code == 200:
+		var Data:Dictionary = JSON.parse_string(body.get_string_from_utf8())
+		if Data != {}:
+			load_event_details(Data)
+	else:
+		push_error("request failed response code: ",response_code)
+
+func load_event_details(Data:Dictionary):
+	event_name.text = Data.event_name
+	description.text = Data.description
+	timings.text = Data.timings
+	contact_no.text = Data.contact_no
+	num_teams.set_value(Data.num_teams)
+	num_participants.set_value(Data.num_participants)
+	fees.set_value(Data.fees)
+
+	for i in Data.rules:
+		var new_rule:Node = RULE.instantiate()
+		new_rule.name = "rule_"+str(rule_container.get_child_count())
+		new_rule.rule_entered.connect(self.add_rule)
+		rule_container.add_child(new_rule)
+		new_rule.text = i
+		fields.append(new_rule)
+	

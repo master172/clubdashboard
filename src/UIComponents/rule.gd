@@ -6,7 +6,9 @@ signal rule_entered(rule:String)
 var text:String:
 	get:
 		return line_edit.text
-
+	set(value):
+		line_edit.text = value
+		 
 func _on_line_edit_text_submitted(new_text: String) -> void:
 	if Utils.is_whitespace(new_text):
 		OS.alert("please enter a valid string")
