@@ -73,6 +73,7 @@ func _on_club_completed(result: int, response_code: int, headers: PackedStringAr
 		profile_backdrop._set_data()
 		login_container.visible = false
 		Utils.logged_in = true
+		Utils.save_info()
 	else:
 		push_error("request failed response code: ",response_code)
 		
@@ -83,9 +84,11 @@ func login():
 	temp_user_id = ""
 	temp_user_password = ""
 	
+	
 func _on_log_out_pressed() -> void:
 	Utils.logged_in = false
 	Utils.user_id = ""
 	Utils.password = ""
 	Utils.login_club = ""
 	get_tree().reload_current_scene()
+	Utils.save_info()
