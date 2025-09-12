@@ -1,0 +1,33 @@
+[gd_scene load_steps=3 format=3 uid="uid://cty6iaf5bhbhe"]
+
+[ext_resource type="Script" uid="uid://d4fyessg1ojcc" path="res://src/Main/login_container.gd" id="1_aypha"]
+[ext_resource type="PackedScene" uid="uid://cypai30cdo3di" path="res://src/UIComponents/login_panel.tscn" id="2_0r85p"]
+
+[node name="LoginContainer" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_aypha")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.101961, 0.101961, 0.101961, 0.466667)
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="LoginPanel" parent="CenterContainer" instance=ExtResource("2_0r85p")]
+layout_mode = 2
