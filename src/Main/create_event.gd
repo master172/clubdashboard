@@ -22,6 +22,7 @@ const RULE = preload("res://src/UIComponents/rule.tscn")
 	venue,
 	fees,
 	contact_no,
+	event_type,
 ]
 
 @onready var field_map:Dictionary[Node,String] = {
@@ -33,6 +34,7 @@ const RULE = preload("res://src/UIComponents/rule.tscn")
 	venue:"venue",
 	fees:"fees",
 	contact_no:"contact_no",
+	event_type:"event_type"
 }
 
 var data:Dictionary = {
@@ -95,7 +97,6 @@ func _on_add_rule_pressed() -> void:
 	new_rule.name = "rule_"+str(rule_container.get_child_count())
 	new_rule.rule_entered.connect(self.add_rule)
 	rule_container.add_child(new_rule)
-	fields.append(new_rule)
 	
 func add_rule(string:String):
 	data["rules"].append(string)
@@ -123,11 +124,11 @@ func _on_fees_value_changed(value: float) -> void:
 
 func _on_save_pressed() -> void:
 	data["rules"] = []
+	for i:Node in rule_container.get_children():
+		data["rules"].append(i.text)
+	
 	for i:Node in fields:
-		if i.name.begins_with("rule_"):
-			data["rules"].append(i.text)
-		else:
-			data[field_map[i]] = i.text if Utils.has_property(i,"text") else int(i.value)
+		data[field_map[i]] = i.text if Utils.has_property(i,"text") else int(i.value)
 	
 	if selected_event != "":
 		data["event_id"] = selected_event
@@ -196,7 +197,6 @@ func load_event_details(Data:Dictionary):
 		new_rule.rule_entered.connect(self.add_rule)
 		rule_container.add_child(new_rule)
 		new_rule.text = i
-		fields.append(new_rule)
 
 
 func _on_venue_text_submitted(new_text: String) -> void:
