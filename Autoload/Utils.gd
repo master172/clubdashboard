@@ -12,6 +12,8 @@ var password:String = ""
 const SAVE_DIRECTORY = "user://save/"
 const SAVE_PATH = "save.tres"
 
+const default_backend_url = "http://127.0.0.1:8000/"
+
 @export var save:save_file = save_file.new()
 
 func _ready() -> void:

@@ -143,7 +143,7 @@ func attemt_event_creation(Data:Dictionary):
 	http.request_completed.connect(http.queue_free.unbind(4))
 	var header = ["Content-Type: application/json"]
 	var body:String = JSON.stringify(Data)
-	var err = http.request("http://127.0.0.1:8000/create_event",header,HTTPClient.METHOD_POST,body)
+	var err = http.request(Utils.default_backend_url+"create_event",header,HTTPClient.METHOD_POST,body)
 	if err != OK:
 		push_error("http request error: ",err)
 	
@@ -161,7 +161,7 @@ func attemt_event_load():
 	var header = ["Content-Type: application/json"]
 	var body:String = JSON.stringify({"club_name":Utils.login_club,"event_name":selected_event})
 	
-	var err = http.request("http://127.0.0.1:8000/event",header,HTTPClient.METHOD_GET,body)
+	var err = http.request(Utils.default_backend_url+"event",header,HTTPClient.METHOD_GET,body)
 	if err != OK:
 		push_error("http request error: ",err)
 	

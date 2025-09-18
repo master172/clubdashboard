@@ -42,7 +42,7 @@ func attemt_permission():
 	add_child(http)
 	http.request_completed.connect(self.permission_granted)
 	http.request_completed.connect(http.queue_free.unbind(4))
-	var err = http.request("http://127.0.0.1:8000/check_time")
+	var err = http.request(Utils.default_backend_url+"check_time")
 	if err != OK:
 		push_error("http request error: ",err)
 	
@@ -63,7 +63,7 @@ func attemt_login(user_id:String,password:String):
 	http.request_completed.connect(http.queue_free.unbind(4))
 	var header = ["Content-Type: application/json"]
 	var body:String = JSON.stringify({"login_id":user_id,"password":password})
-	var err = http.request("http://127.0.0.1:8000/user",header,HTTPClient.METHOD_GET,body)
+	var err = http.request(Utils.default_backend_url+"user",header,HTTPClient.METHOD_GET,body)
 	if err != OK:
 		push_error("http request error: ",err)
 	
@@ -84,7 +84,7 @@ func attemt_club_name(user_id:String):
 	http.request_completed.connect(http.queue_free.unbind(4))
 	var header = ["Content-Type: application/json"]
 	var body:String = JSON.stringify({"user_id":user_id})
-	var err = http.request("http://127.0.0.1:8000/club",header,HTTPClient.METHOD_GET,body)
+	var err = http.request(Utils.default_backend_url+"club",header,HTTPClient.METHOD_GET,body)
 	if err != OK:
 		push_error("http request error: ",err)
 	
