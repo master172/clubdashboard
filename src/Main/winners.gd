@@ -19,6 +19,10 @@ const INSTITUTION_DELEGATE = preload("res://src/UIComponents/InstitutionDelegate
 
 @onready var save: Button = $VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/Save
 
+@onready var teams_1: OptionButton = $VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/Place1/HBoxContainer/Teams
+@onready var teams_2: OptionButton = $VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/Place2/HBoxContainer/Teams2
+@onready var teams_3: OptionButton = $VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/Place3/HBoxContainer/Teams3
+
 @onready var place_buttons:Array = [
 	place_1,
 	place_2,
@@ -29,23 +33,35 @@ var data_to_save:Dictionary = {
 	"first_place":{
 		"type":"",
 		"uid":"",
+		"team":""
 	},
 	"second_place":{
 		"type":"",
 		"uid":"",
+		"team":""
 	},
 	"third_place":{
 		"type":"",
 		"uid":"",
+		"team":""
 	},
 }
 
+@onready var button_map:Dictionary = {
+	teams_1:"first_place",
+	teams_2:"second_place",
+	teams_3:"third_place",
+}
 var uid_type_index:Dictionary = {}
 
 var uid_individual_index:Dictionary = {}
 var uid_institution_index:Dictionary = {}
 var registrations_loaded:int = 0
+
 func _ready() -> void:
+	teams_1.visible = false
+	teams_2.visible = false
+	teams_3.visible = false
 	if Utils.selected_event.size() != 0:
 		selected_event = Utils.selected_event.get_front()
 		event_id = Utils.event_id.get_front()
@@ -169,13 +185,14 @@ func select_option_by_text(button: OptionButton, text: String) -> void:
 			button.select(i)
 			return
 
-
 func parse_fetched_data(data:Dictionary) -> void:
 	# First Place
 	if data.has("first_place") and data["first_place"]["uid"] != "":
 		var uid = data["first_place"]["uid"]
 		var type = data["first_place"]["type"]
-
+		var index:int = 0
+		if data["first_place"].has("team"):
+			index = int(data["first_place"]["team"])
 		select_option_by_text(place_1, uid)
 
 		for c in place_1_container.get_children():
@@ -186,15 +203,17 @@ func parse_fetched_data(data:Dictionary) -> void:
 			place_1_container.add_child(delegate)
 			delegate._load_data(INDIVIDUAL_REGISTRATIONS["registrations"][uid_individual_index[uid]])
 		elif type == "institution":
-			var delegate:Node = INSTITUTION_DELEGATE.instantiate()
-			place_1_container.add_child(delegate)
-			delegate._load_data(INSTITUTION_REGISTRATIONS["registrations"][uid_institution_index[uid]])
+			var teams:Array = INSTITUTION_REGISTRATIONS["registrations"][uid_institution_index[uid]]["teams"]
+			set_and_select_team(teams_1,teams,index)
+			set_institution_delegate_entry(place_1_container,place_1,teams_1)
 
 	# Second Place
 	if data.has("second_place") and data["second_place"]["uid"] != "":
 		var uid = data["second_place"]["uid"]
 		var type = data["second_place"]["type"]
-
+		var index:int = 0
+		if data["second_place"].has("team"):
+			index = int(data["second_place"]["team"])
 		select_option_by_text(place_2, uid)
 
 		for c in place_2_container.get_children():
@@ -205,15 +224,17 @@ func parse_fetched_data(data:Dictionary) -> void:
 			place_2_container.add_child(delegate)
 			delegate._load_data(INDIVIDUAL_REGISTRATIONS["registrations"][uid_individual_index[uid]])
 		elif type == "institution":
-			var delegate:Node = INSTITUTION_DELEGATE.instantiate()
-			place_2_container.add_child(delegate)
-			delegate._load_data(INSTITUTION_REGISTRATIONS["registrations"][uid_institution_index[uid]])
+			var teams:Array = INSTITUTION_REGISTRATIONS["registrations"][uid_institution_index[uid]]["teams"]
+			set_and_select_team(teams_2,teams,index)
+			set_institution_delegate_entry(place_2_container,place_2,teams_2)
 
 	# Third Place
 	if data.has("third_place") and data["third_place"]["uid"] != "":
 		var uid = data["third_place"]["uid"]
 		var type = data["third_place"]["type"]
-
+		var index:int = 0
+		if data["third_place"].has("team"):
+			index = int(data["third_place"]["team"])
 		select_option_by_text(place_3, uid)
 
 		for c in place_3_container.get_children():
@@ -224,11 +245,52 @@ func parse_fetched_data(data:Dictionary) -> void:
 			place_3_container.add_child(delegate)
 			delegate._load_data(INDIVIDUAL_REGISTRATIONS["registrations"][uid_individual_index[uid]])
 		elif type == "institution":
-			var delegate:Node = INSTITUTION_DELEGATE.instantiate()
-			place_3_container.add_child(delegate)
-			delegate._load_data(INSTITUTION_REGISTRATIONS["registrations"][uid_institution_index[uid]])
+			var teams:Array = INSTITUTION_REGISTRATIONS["registrations"][uid_institution_index[uid]]["teams"]
+			set_and_select_team(teams_3,teams,index)
+			set_institution_delegate_entry(place_3_container,place_3,teams_3)
 
+func set_teams_button(button:Button,team:Array)->void:
+	if team.size()>1:
+		for i:int in range (0.,team.size()):
+			button.add_item("Team "+str(i+1))
+		button.visible = true
+	else:
+		var place = button_map[button]
+		data_to_save[place]["team"] = 0
+		button.clear()
+		button.visible = false
+
+func set_and_select_team(button:OptionButton,team:Array,index:int)->void:
+	if team.size()>1:
+		for i:int in range (0.,team.size()):
+			button.add_item("Team "+str(i+1))
+		button.visible = true
+		button.select(index)
+	else:
+		var place = button_map[button]
+		data_to_save[place]["team"] = 0
+		button.clear()
+		button.visible = false
+		
+func _filter_delegate_to_team(delegate_data: Dictionary, team_index: int) -> Dictionary:
+	var filtered = delegate_data.duplicate(true)
+	if filtered.has("teams") and team_index >= 0 and team_index < filtered["teams"].size():
+		filtered["teams"] = [filtered["teams"][team_index]]
+	return filtered
+
+func set_institution_delegate_entry(container:PanelContainer,button:OptionButton,team_button:OptionButton):
+	for i in container.get_children():
+		i.queue_free()
+		
+	var delegate:Node = INSTITUTION_DELEGATE.instantiate()
+	container.add_child(delegate)
+	var uid_index :int = uid_institution_index[button.get_item_text(button.get_item_index(button.get_selected_id()))]
+	var team_index = team_button.get_item_index(team_button.get_selected_id())
+	var regular_data :Dictionary= INSTITUTION_REGISTRATIONS["registrations"][uid_index]
 	
+	var data = _filter_delegate_to_team(regular_data,team_index)
+	delegate._load_data(data)
+
 func _on_place_1_item_selected(index: int) -> void:
 	if index == 0:
 		data_to_save["first_place"] = {
@@ -251,11 +313,12 @@ func _on_place_1_item_selected(index: int) -> void:
 		var delegate:Node = INDUVIDUALDELEGATE.instantiate()
 		place_1_container.add_child(delegate)
 		delegate._load_data(INDIVIDUAL_REGISTRATIONS["registrations"][uid_individual_index[place_1.get_item_text(index)]])
+		set_teams_button(teams_1,[])
 		
 	elif type == "institution":
-		var delegate:Node = INSTITUTION_DELEGATE.instantiate()
-		place_1_container.add_child(delegate)
-		delegate._load_data(INSTITUTION_REGISTRATIONS["registrations"][uid_institution_index[place_1.get_item_text(index)]])
+		var teams:Array = INSTITUTION_REGISTRATIONS["registrations"][uid_institution_index[place_1.get_item_text(index)]]["teams"]
+		set_teams_button(teams_1,teams)
+		set_institution_delegate_entry(place_1_container,place_1,teams_1)
 	else:
 		push_error("invalid registration type")
 
@@ -279,11 +342,12 @@ func _on_place_2_item_selected(index: int) -> void:
 		var delegate:Node = INDUVIDUALDELEGATE.instantiate()
 		place_2_container.add_child(delegate)
 		delegate._load_data(INDIVIDUAL_REGISTRATIONS["registrations"][uid_individual_index[place_2.get_item_text(index)]])
+		set_teams_button(teams_2,[])
 		
 	elif type == "institution":
-		var delegate:Node = INSTITUTION_DELEGATE.instantiate()
-		place_2_container.add_child(delegate)
-		delegate._load_data(INSTITUTION_REGISTRATIONS["registrations"][uid_institution_index[place_2.get_item_text(index)]])
+		var teams:Array = INSTITUTION_REGISTRATIONS["registrations"][uid_institution_index[place_2.get_item_text(index)]]["teams"]
+		set_teams_button(teams_2,teams)
+		set_institution_delegate_entry(place_2_container,place_2,teams_2)
 	else:
 		push_error("invalid registration type")
 		
@@ -307,11 +371,12 @@ func _on_place_3_item_selected(index: int) -> void:
 		var delegate:Node = INDUVIDUALDELEGATE.instantiate()
 		place_3_container.add_child(delegate)
 		delegate._load_data(INDIVIDUAL_REGISTRATIONS["registrations"][uid_individual_index[place_3.get_item_text(index)]])
+		set_teams_button(teams_3,[])
 		
 	elif type == "institution":
-		var delegate:Node = INSTITUTION_DELEGATE.instantiate()
-		place_3_container.add_child(delegate)
-		delegate._load_data(INSTITUTION_REGISTRATIONS["registrations"][uid_institution_index[place_3.get_item_text(index)]])
+		var teams:Array = INSTITUTION_REGISTRATIONS["registrations"][uid_institution_index[place_3.get_item_text(index)]]["teams"]
+		set_teams_button(teams_3,teams)
+		set_institution_delegate_entry(place_3_container,place_3,teams_3)
 	else:
 		push_error("invalid registration type")
 		
@@ -336,3 +401,19 @@ func on_save_completed(result: int, response_code: int, headers: PackedStringArr
 			_on_back_pressed()
 	else:
 		push_error("request failed response code: ",response_code)
+
+
+
+func _on_teams_item_selected(index: int) -> void:
+	data_to_save["first_place"]["team"] = str(index)
+	set_institution_delegate_entry(place_1_container,place_1,teams_1)
+
+
+func _on_teams_2_item_selected(index: int) -> void:
+	data_to_save["second_place"]["team"] = str(index)
+	set_institution_delegate_entry(place_2_container,place_2,teams_2)
+
+
+func _on_teams_3_item_selected(index: int) -> void:
+	data_to_save["third_place"]["team"] = str(index)
+	set_institution_delegate_entry(place_3_container,place_3,teams_3)
