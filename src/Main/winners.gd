@@ -75,6 +75,8 @@ func induvidual_request_completed(result: int, response_code: int, headers: Pack
 	else:
 		if response_code == 404:
 			OS.alert("No individual registrations found")
+			registrations_loaded += 1
+			_check_all_registrations_loaded()
 		else:
 			push_error("request failed response code: ",response_code)
 
@@ -97,6 +99,8 @@ func institution_request_completed(result: int, response_code: int, headers: Pac
 	else:
 		if response_code == 404:
 			OS.alert("No institution registrations found")
+			registrations_loaded += 1
+			_check_all_registrations_loaded()
 		else:
 			push_error("request failed response code: ",response_code)
 
