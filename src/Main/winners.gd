@@ -1,6 +1,7 @@
 extends Control
 
 var selected_event:String = ""
+var event_id:String = ""
 
 var INDIVIDUAL_REGISTRATIONS:Dictionary = {}
 var INSTITUTION_REGISTRATIONS:Dictionary = {}
@@ -47,6 +48,7 @@ var registrations_loaded:int = 0
 func _ready() -> void:
 	if Utils.selected_event.size() != 0:
 		selected_event = Utils.selected_event.get_front()
+		event_id = Utils.event_id.get_front()
 		get_individual_registrations()
 		get_institution_registrations()
 		
@@ -146,7 +148,7 @@ func get_winners()->void:
 	http.request_completed.connect(self.load_fetched_winners_data)
 	http.request_completed.connect(http.queue_free.unbind(4))
 	var club = Utils.login_club.uri_encode()
-	var event = selected_event.uri_encode()
+	var event = event_id.uri_encode()
 	var url :String= Utils.default_backend_url+"get_winners/"+club+"/"+event
 	var err = http.request(url)
 	if err != OK:
@@ -321,7 +323,7 @@ func _on_save_pressed() -> void:
 	http.request_completed.connect(http.queue_free.unbind(4))
 	var header = ["Content-Type: application/json"]
 	var body:String = JSON.stringify(data_to_save)
-	var url :String= Utils.default_backend_url+"set_winners/"+Utils.login_club.uri_encode()+"/"+selected_event.uri_encode()
+	var url :String= Utils.default_backend_url+"set_winners/"+Utils.login_club.uri_encode()+"/"+event_id.uri_encode()
 	
 	var err = http.request(url,header,HTTPClient.METHOD_POST,body)
 	if err != OK:

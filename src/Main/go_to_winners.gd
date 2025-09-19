@@ -39,10 +39,11 @@ func add_event_buttons(button_entries:Dictionary)->void:
 	for i in button_entries.keys():
 		var button:Node =REGISTRATION_BUTTON_COMPONENT.instantiate()
 		button.event_name = i
-		button.pressed.connect(self.on_event_button_pressed.bind(button_entries[i]))
+		button.pressed.connect(self.on_event_button_pressed.bind(button_entries[i],i))
 		button.Text = button_entries[i]
 		items.add_child(button)
 
-func on_event_button_pressed(event_id:String)->void:
-	Utils.selected_event.enqueue(event_id)
+func on_event_button_pressed(event_name:String,event_id:String)->void:
+	Utils.event_id.enqueue(event_id)
+	Utils.selected_event.enqueue(event_name)
 	_on_registration_button_pressed()

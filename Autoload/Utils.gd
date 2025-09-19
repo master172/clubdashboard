@@ -4,6 +4,7 @@ var login_club:String = ""
 
 var register_form:Queue = Queue.new()
 var selected_event:Queue = Queue.new()
+var event_id:Queue = Queue.new()
 
 var logged_in:bool = false
 var user_id:String = ""
