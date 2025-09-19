@@ -114,3 +114,8 @@ func _on_log_out_pressed() -> void:
 	Utils.login_club = ""
 	get_tree().reload_current_scene()
 	Utils.save_info()
+
+
+func _on_winner_button_pressed() -> void:
+	var Go_To_Winners :PackedScene = load("res://src/Main/go_to_winners.tscn")
+	get_tree().change_scene_to_packed(Go_To_Winners)

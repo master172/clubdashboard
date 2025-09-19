@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://dgc3m4i4156v3"]
+[gd_scene load_steps=22 format=3 uid="uid://dgc3m4i4156v3"]
 
 [ext_resource type="Script" uid="uid://bjuexdydjvkta" path="res://src/Main/main.gd" id="1_52sh2"]
 [ext_resource type="Theme" uid="uid://c8wib8exwpaas" path="res://Resources/MainTheme.tres" id="1_f6j18"]
@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://351f6j6go1i2" path="res://src/UIComponents/BaseButtonComponent.tscn" id="4_nxavr"]
 [ext_resource type="FontFile" uid="uid://b6pbhvdgvsn2" path="res://assets/Fonts/Fira_Code/static/FiraCode-Regular.ttf" id="6_52sh2"]
 [ext_resource type="Texture2D" uid="uid://3wbfrdbf88e6" path="res://assets/Icons/Back.svg" id="6_nxavr"]
+[ext_resource type="Texture2D" uid="uid://bjn5gyhwpn1ys" path="res://assets/Icons/Winner.svg" id="6_ofova"]
 [ext_resource type="Script" uid="uid://b7mdgktvb5jkb" path="res://src/Main/profile_backdrop.gd" id="7_8lego"]
 [ext_resource type="Script" uid="uid://d4fyessg1ojcc" path="res://src/Main/login_container.gd" id="8_51663"]
 [ext_resource type="PackedScene" uid="uid://cypai30cdo3di" path="res://src/UIComponents/login_panel.tscn" id="8_yqsku"]
@@ -225,7 +226,7 @@ theme_override_constants/margin_bottom = 24
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/h_separation = 48
-theme_override_constants/v_separation = 0
+theme_override_constants/v_separation = 48
 columns = 2
 
 [node name="ManageEvents" parent="MainContainer/OptionsContainer/GridContainer" instance=ExtResource("4_nxavr")]
@@ -235,6 +236,11 @@ layout_mode = 2
 layout_mode = 2
 Icon = ExtResource("3_1pat6")
 Text = "Registrations"
+
+[node name="WinnerButton" parent="MainContainer/OptionsContainer/GridContainer" instance=ExtResource("4_nxavr")]
+layout_mode = 2
+Icon = ExtResource("6_ofova")
+Text = "Winners"
 
 [node name="Slide" type="Control" parent="."]
 layout_mode = 1
@@ -351,6 +357,7 @@ layout_mode = 2
 [connection signal="pressed" from="MainContainer/Panel/HBoxContainer/ProfileButton" to="." method="_on_profile_button_pressed"]
 [connection signal="pressed" from="MainContainer/OptionsContainer/GridContainer/ManageEvents" to="." method="_on_manage_events_pressed"]
 [connection signal="pressed" from="MainContainer/OptionsContainer/GridContainer/RegistrationsButton" to="." method="_on_registrations_button_pressed"]
+[connection signal="pressed" from="MainContainer/OptionsContainer/GridContainer/WinnerButton" to="." method="_on_winner_button_pressed"]
 [connection signal="pressed" from="Slide/MarginContainer/SlideOptions/Back" to="." method="_on_profile_button_pressed"]
 [connection signal="pressed" from="Slide/MarginContainer/SlideOptions/LogOut" to="." method="_on_log_out_pressed"]
 [connection signal="login" from="LoginContainer/CenterContainer/LoginPanel" to="." method="_on_login_panel_login"]
