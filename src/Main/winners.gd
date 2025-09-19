@@ -43,14 +43,19 @@ var uid_type_index:Dictionary = {}
 
 var uid_individual_index:Dictionary = {}
 var uid_institution_index:Dictionary = {}
-
+var registrations_loaded:int = 0
 func _ready() -> void:
 	if Utils.selected_event.size() != 0:
 		selected_event = Utils.selected_event.get_front()
 		get_individual_registrations()
 		get_institution_registrations()
 		
-		
+
+func _check_all_registrations_loaded() -> void:
+	if registrations_loaded >= 2:
+		get_winners()
+
+
 func get_individual_registrations()->void:
 	var http :HTTPRequest = HTTPRequest.new()
 	add_child(http)
@@ -107,7 +112,10 @@ func add_individual_registrations(data:Dictionary)->void:
 	for i :OptionButton in place_buttons:
 		for j :String in registration_ids:
 			i.add_item(j)
-			
+	
+	registrations_loaded += 1
+	_check_all_registrations_loaded()
+	
 func add_institution_registrations(data:Dictionary)->void:
 	var registration_ids:Array[String] = []
 	var running_total:int = 0
@@ -120,12 +128,101 @@ func add_institution_registrations(data:Dictionary)->void:
 	for i :OptionButton in place_buttons:
 		for j :String in registration_ids:
 			i.add_item(j)
-
+	
+	registrations_loaded += 1
+	_check_all_registrations_loaded()
+	
 func _on_back_pressed() -> void:
 	var Go_To_Winners :PackedScene = load("res://src/Main/go_to_winners.tscn")
 	get_tree().change_scene_to_packed(Go_To_Winners)
 
+func get_winners()->void:
+	var http :HTTPRequest = HTTPRequest.new()
+	add_child(http)
+	http.request_completed.connect(self.load_fetched_winners_data)
+	http.request_completed.connect(http.queue_free.unbind(4))
+	var club = Utils.login_club.uri_encode()
+	var event = selected_event.uri_encode()
+	var url :String= Utils.default_backend_url+"get_winners/"+club+"/"+event
+	var err = http.request(url)
+	if err != OK:
+		push_error("http request error: ",err)
+		
+func load_fetched_winners_data(result: int, response_code: int, headers: PackedStringArray, body: PackedByteArray) -> void:
+	if response_code == 200:
+		var data:Dictionary = JSON.parse_string(body.get_string_from_utf8())
+		if data != {}:
+			data_to_save = data
+			parse_fetched_data(data)
+	else:
+		push_error("request failed response code: ",response_code)
 
+func select_option_by_text(button: OptionButton, text: String) -> void:
+	for i in range(button.item_count):
+		if button.get_item_text(i) == text:
+			button.select(i)
+			return
+
+
+func parse_fetched_data(data:Dictionary) -> void:
+	# First Place
+	if data.has("first_place") and data["first_place"]["uid"] != "":
+		var uid = data["first_place"]["uid"]
+		var type = data["first_place"]["type"]
+
+		select_option_by_text(place_1, uid)
+
+		for c in place_1_container.get_children():
+			c.queue_free()
+
+		if type == "individual":
+			var delegate:Node = INDUVIDUALDELEGATE.instantiate()
+			place_1_container.add_child(delegate)
+			delegate._load_data(INDIVIDUAL_REGISTRATIONS["registrations"][uid_individual_index[uid]])
+		elif type == "institution":
+			var delegate:Node = INSTITUTION_DELEGATE.instantiate()
+			place_1_container.add_child(delegate)
+			delegate._load_data(INSTITUTION_REGISTRATIONS["registrations"][uid_institution_index[uid]])
+
+	# Second Place
+	if data.has("second_place") and data["second_place"]["uid"] != "":
+		var uid = data["second_place"]["uid"]
+		var type = data["second_place"]["type"]
+
+		select_option_by_text(place_2, uid)
+
+		for c in place_2_container.get_children():
+			c.queue_free()
+
+		if type == "individual":
+			var delegate:Node = INDUVIDUALDELEGATE.instantiate()
+			place_2_container.add_child(delegate)
+			delegate._load_data(INDIVIDUAL_REGISTRATIONS["registrations"][uid_individual_index[uid]])
+		elif type == "institution":
+			var delegate:Node = INSTITUTION_DELEGATE.instantiate()
+			place_2_container.add_child(delegate)
+			delegate._load_data(INSTITUTION_REGISTRATIONS["registrations"][uid_institution_index[uid]])
+
+	# Third Place
+	if data.has("third_place") and data["third_place"]["uid"] != "":
+		var uid = data["third_place"]["uid"]
+		var type = data["third_place"]["type"]
+
+		select_option_by_text(place_3, uid)
+
+		for c in place_3_container.get_children():
+			c.queue_free()
+
+		if type == "individual":
+			var delegate:Node = INDUVIDUALDELEGATE.instantiate()
+			place_3_container.add_child(delegate)
+			delegate._load_data(INDIVIDUAL_REGISTRATIONS["registrations"][uid_individual_index[uid]])
+		elif type == "institution":
+			var delegate:Node = INSTITUTION_DELEGATE.instantiate()
+			place_3_container.add_child(delegate)
+			delegate._load_data(INSTITUTION_REGISTRATIONS["registrations"][uid_institution_index[uid]])
+
+	
 func _on_place_1_item_selected(index: int) -> void:
 	if index == 0:
 		data_to_save["first_place"] = {
@@ -155,7 +252,7 @@ func _on_place_1_item_selected(index: int) -> void:
 		delegate._load_data(INSTITUTION_REGISTRATIONS["registrations"][uid_institution_index[place_1.get_item_text(index)]])
 	else:
 		push_error("invalid registration type")
-		
+
 func _on_place_2_item_selected(index: int) -> void:
 	if index == 0:
 		data_to_save["second_place"] = {
