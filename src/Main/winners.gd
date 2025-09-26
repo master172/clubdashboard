@@ -292,7 +292,7 @@ func set_institution_delegate_entry(container:PanelContainer,button:OptionButton
 	delegate._load_data(data)
 
 func _on_place_1_item_selected(index: int) -> void:
-	if index == 0:
+	if index == -1:
 		data_to_save["first_place"] = {
 		"type":"",
 		"uid":"",
@@ -323,7 +323,7 @@ func _on_place_1_item_selected(index: int) -> void:
 		push_error("invalid registration type")
 
 func _on_place_2_item_selected(index: int) -> void:
-	if index == 0:
+	if index == -1:
 		data_to_save["second_place"] = {
 		"type":"",
 		"uid":"",
@@ -352,7 +352,7 @@ func _on_place_2_item_selected(index: int) -> void:
 		push_error("invalid registration type")
 		
 func _on_place_3_item_selected(index: int) -> void:
-	if index == 0:
+	if index == -1:
 		data_to_save["third_place"] = {
 		"type":"",
 		"uid":"",
